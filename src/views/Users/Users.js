@@ -29,7 +29,7 @@ function UserRow(props) {
   return (
     <tr key={user.id.toString()}>
         <th scope="row"><a href={'#'}>{user.id}</a></th>
-        <td><a href={'#'}>{user.profile.name}</a></td>
+        <td style={styleCap} ><a href={'#'}>{user.profile.name}</a></td>
         <td>{user.email}</td>
         <td>{user.profile.gender}</td>
         <td>{user.profile.birthday}</td>
