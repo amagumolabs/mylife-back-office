@@ -12,13 +12,17 @@ function UserRow(props) {
 
   const getBadge = (status) => {
     return status === 'active' ? 'success' :
-      status === 'Inactive' ? 'secondary' :
-        status === 'Pending' ? 'warning' :
-          status === 'Banned' ? 'danger' :
+        status === 'ban' ? 'warning' :
+          status === 'inactive' ? 'danger' :
             'primary'
   }
 
-  const styleStatus = {
+  const getBadgeRole = (role) => {
+    return role === 'admin' ? 'primary' :
+            'secondary'
+  }
+
+  const styleCap = {
     textTransform: 'capitalize'
   };
 
@@ -32,8 +36,8 @@ function UserRow(props) {
         <td>{user.profile.phone}</td>
         <td>{user.profile.nationality}</td>
         <td>{user.created_at.toString().split(" ").slice(0, 1).join(" ")}</td>
-        <td>{user.role.name}</td>
-        <td style={styleStatus} ><Badge href={'#'} color={getBadge(user.status)}>{user.status}</Badge></td>
+        <td style={styleCap} ><Badge href={'#'} color={getBadgeRole(user.role.name)}>{user.role.name}</Badge></td>
+        <td style={styleCap} ><Badge href={'#'} color={getBadge(user.status)}>{user.status}</Badge></td>
     </tr>
   )
 }
@@ -49,7 +53,7 @@ class Users extends Component {
   }
 
   componentDidMount() {
-    
+    // get all user
     axios.get('http://mylifecompanyapp.amagumolabs.io/api/public/api/v1/admin/users',
     { 'headers': { 'Authorization': 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xOTIuMTY4LjY0LjJcL2FwaVwvcHVibGljXC9hcGlcL3YxXC9hdXRoXC9sb2dpbiIsImlhdCI6MTUzMTc5OTY0MSwiZXhwIjoxNjg3MzE5NjQxLCJuYmYiOjE1MzE3OTk2NDEsImp0aSI6IlBLSHgyekxlbHRyb2ZaOUkiLCJzdWIiOjEyLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.gk_DXYXhsuDMdTzTSGHbYmpH9dBrXF2jIYvLcGPkFps' } })
       .then((response) => {
@@ -65,8 +69,6 @@ class Users extends Component {
   }
 
   render() {
-
-    console.log("trong render"+JSON.stringify(this.state.listUsers))
 
     return (
       <div className="animated fadeIn">
