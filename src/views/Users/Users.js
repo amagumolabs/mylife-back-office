@@ -5,17 +5,26 @@ import usersData from './UsersData';
 
 import axios from 'axios';
 
+
 function UserRow(props) {
   const user = props.user
   const userLink = `#/users/${user.id}`
 
   const getBadge = (status) => {
-    return status === 'Active' ? 'success' :
-      status === 'Inactive' ? 'secondary' :
-        status === 'Pending' ? 'warning' :
-          status === 'Banned' ? 'danger' :
+    return status === 'active' ? 'success' :
+        status === 'ban' ? 'warning' :
+          status === 'inactive' ? 'danger' :
             'primary'
   }
+
+  const getBadgeRole = (role) => {
+    return role === 'admin' ? 'primary' :
+            'secondary'
+  }
+
+  const styleCap = {
+    textTransform: 'capitalize'
+  };
 
   return (
     <tr key={user.id.toString()}>
@@ -27,135 +36,39 @@ function UserRow(props) {
         <td>{user.profile.phone}</td>
         <td>{user.profile.nationality}</td>
         <td>{user.created_at.toString().split(" ").slice(0, 1).join(" ")}</td>
-        <td>{user.role.name}</td>
-        <td><Badge href={'#'} color={getBadge(user.status)}>{user.status}</Badge></td>
+        <td style={styleCap} ><Badge href={'#'} color={getBadgeRole(user.role.name)}>{user.role.name}</Badge></td>
+        <td style={styleCap} ><Badge href={'#'} color={getBadge(user.status)}>{user.status}</Badge></td>
     </tr>
   )
 }
 
-
 class Users extends Component {
 
+  constructor(props) {
+      super(props);
+
+      this.state = {
+          listUsers: []
+      };
+  }
+
+  componentDidMount() {
+    // get all user
+    axios.get('http://mylifecompanyapp.amagumolabs.io/api/public/api/v1/admin/users',
+    { 'headers': { 'Authorization': 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xOTIuMTY4LjY0LjJcL2FwaVwvcHVibGljXC9hcGlcL3YxXC9hdXRoXC9sb2dpbiIsImlhdCI6MTUzMTc5OTY0MSwiZXhwIjoxNjg3MzE5NjQxLCJuYmYiOjE1MzE3OTk2NDEsImp0aSI6IlBLSHgyekxlbHRyb2ZaOUkiLCJzdWIiOjEyLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.gk_DXYXhsuDMdTzTSGHbYmpH9dBrXF2jIYvLcGPkFps' } })
+      .then((response) => {
+          this.setState({ listUsers: response.data.users });
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });
+  }
+
   render() {
-
-    
-    // // Make a request for a user with a given ID
-    // axios.get('http://mylifecompanyapp.amagumolabs.io/api/public/api/v1')
-    //   .then(function (response) {
-    //     // handle success
-    //     console.log("Dinh Van");
-    //     console.log(response);
-    //   })
-    //   .catch(function (error) {
-    //     // handle error
-    //     console.log(error);
-    //   })
-    //   .then(function () {
-    //     // always executed
-    //   });
-
-    const listUser = {
-      "users": [
-          {
-              "id": 12,
-              "email": "ltdai91@gmail.com",
-              "needChangePassword": 1,
-              "status": "Active",
-              "roleId": 1,
-              "created_at": "2018-07-13 10:16:55",
-              "updated_at": "2018-07-13 10:16:55",
-              "deleted_at": null,
-              "role": {
-                  "id": 1,
-                  "name": "user",
-                  "description": "Normal user",
-                  "created_at": "2018-07-13 08:44:24",
-                  "updated_at": "2018-07-13 08:44:24",
-                  "deleted_at": null
-              },
-              "profile": {
-                  "id": 12,
-                  "memberCode": "KtoqqR6v75",
-                  "userId": 12,
-                  "name": "Danh Nguyeeen",
-                  "avatar": "",
-                  "gender": "male",
-                  "birthday": "1991-01-05",
-                  "phone": "+84947021591",
-                  "nationality": "vietnam",
-                  "created_at": "2018-07-13 10:16:55",
-                  "updated_at": "2018-07-13 10:16:55",
-                  "deleted_at": null
-              }
-          },
-          {
-              "id": 13,
-              "email": "ltdai.91@gmail.com",
-              "needChangePassword": 1,
-              "status": "Active",
-              "roleId": 1,
-              "created_at": "2018-07-16 09:25:09",
-              "updated_at": "2018-07-16 09:25:09",
-              "deleted_at": null,
-              "role": {
-                  "id": 1,
-                  "name": "user",
-                  "description": "Normal user",
-                  "created_at": "2018-07-13 08:44:24",
-                  "updated_at": "2018-07-13 08:44:24",
-                  "deleted_at": null
-              },
-              "profile": {
-                  "id": 13,
-                  "memberCode": "P0SLyeZhpK",
-                  "userId": 13,
-                  "name": "Dai Luog",
-                  "avatar": "",
-                  "gender": null,
-                  "birthday": "1991-01-01",
-                  "phone": "ltdai.91@gmail.com",
-                  "nationality": "vietnam",
-                  "created_at": "2018-07-16 09:25:09",
-                  "updated_at": "2018-07-16 09:25:09",
-                  "deleted_at": null
-              }
-          },
-          {
-              "id": 14,
-              "email": "ltdai91@gmail.com.vn",
-              "needChangePassword": 1,
-              "status": "Active",
-              "roleId": 1,
-              "created_at": "2018-07-16 10:14:53",
-              "updated_at": "2018-07-16 10:14:53",
-              "deleted_at": null,
-              "role": {
-                  "id": 1,
-                  "name": "user",
-                  "description": "Normal user",
-                  "created_at": "2018-07-13 08:44:24",
-                  "updated_at": "2018-07-13 08:44:24",
-                  "deleted_at": null
-              },
-              "profile": {
-                  "id": 14,
-                  "memberCode": "3uawdAXiFQ",
-                  "userId": 14,
-                  "name": "dai",
-                  "avatar": "",
-                  "gender": null,
-                  "birthday": "2018-07-16",
-                  "phone": "ltdai91@gmail.com.vn",
-                  "nationality": "vietnam",
-                  "created_at": "2018-07-16 10:14:53",
-                  "updated_at": "2018-07-16 10:14:53",
-                  "deleted_at": null
-              }
-          }
-      ]
-    }
-
-    const userList = usersData.filter((user) => user.id < 10)
 
     return (
       <div className="animated fadeIn">
@@ -182,7 +95,8 @@ class Users extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {listUser.users.map((user, index) =>
+                    
+                    {this.state.listUsers.map((user, index) =>
                       <UserRow key={index} user={user}/>
                     )}
                   </tbody>
