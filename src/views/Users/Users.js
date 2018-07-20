@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Badge, Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
 
-import usersData from './UsersData';
+// import usersData from './UsersData';
 
 import axios from 'axios';
 
@@ -28,8 +28,8 @@ function UserRow(props) {
 
   return (
     <tr key={user.id.toString()}>
-        <th scope="row"><a href={'#'}>{user.id}</a></th>
-        <td style={styleCap} ><a href={'#'}>{user.profile.name}</a></td>
+        <th scope="row">{user.id}</th>
+        <td style={styleCap} >{user.profile.name}</td>
         <td>{user.email}</td>
         <td>{user.profile.gender}</td>
         <td>{user.profile.birthday}</td>

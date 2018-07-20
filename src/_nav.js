@@ -9,6 +9,15 @@ export default {
       //   text: 'NEW',
       // },
     },
+    {
+      name: 'Restaurants',
+      url: '/restaurants',
+      icon: '',
+      // badge: {
+      //   variant: 'info',
+      //   text: 'NEW',
+      // },
+    },
     // {
     //   title: true,
     //   name: 'Theme',
