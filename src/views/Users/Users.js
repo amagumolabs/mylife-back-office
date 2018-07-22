@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Badge, Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
 
-// import usersData from './UsersData';
-
 import axios from 'axios';
 
 
@@ -95,7 +93,6 @@ class Users extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    
                     {this.state.listUsers.map((user, index) =>
                       <UserRow key={index} user={user}/>
                     )}

@@ -2,21 +2,13 @@ export default {
   items: [
     {
       name: 'Users',
-      url: '/',
+      url: '/users',
       icon: 'icon-user',
-      // badge: {
-      //   variant: 'info',
-      //   text: 'NEW',
-      // },
     },
     {
       name: 'Restaurants',
       url: '/restaurants',
-      icon: '',
-      // badge: {
-      //   variant: 'info',
-      //   text: 'NEW',
-      // },
+      icon: 'icon-umbrella',
     },
     // {
     //   title: true,

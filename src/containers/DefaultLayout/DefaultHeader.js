@@ -28,30 +28,12 @@ class DefaultHeader extends Component {
         <AppSidebarToggler className="d-md-down-none" display="lg" />
 
         <Nav className="d-md-down-none" navbar>
-          {/* <NavItem className="px-3">
-            <NavLink href="/">Dashboard</NavLink>
-          </NavItem> */}
           <NavItem className="px-3">
             <NavLink href="/">Mylife coffee</NavLink>
           </NavItem>
-          {/* <NavItem className="px-3">
-            <NavLink href="#">Settings</NavLink>
-          </NavItem> */}
         </Nav>
         <Nav className="ml-auto" navbar>
-          <NavItem className="d-md-down-none">
-            {/* <NavLink href="#"><i className="icon-bell"></i><Badge pill color="danger">5</Badge></NavLink> */}
-          </NavItem>
-          <NavItem className="d-md-down-none">
-            {/* <NavLink href="#"><i className="icon-list"></i></NavLink> */}
-          </NavItem>
-          <NavItem className="d-md-down-none">
-            {/* <NavLink href="#"><i className="icon-location-pin"></i></NavLink> */}
-          </NavItem>
           <AppHeaderDropdown direction="down">
-            <DropdownToggle nav>
-              {/* <img src={'assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" /> */}
-            </DropdownToggle>
             <DropdownMenu right style={{ right: 'auto' }}>
               <DropdownItem header tag="div" className="text-center"><strong>Account</strong></DropdownItem>
               <DropdownItem><i className="fa fa-bell-o"></i> Updates<Badge color="info">42</Badge></DropdownItem>
