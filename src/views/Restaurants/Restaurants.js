@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { Badge, Card, CardBody, CardHeader, Col, Row, Table, Input, Label, FormGroup } from 'reactstrap';
+import { Badge, Card, CardBody, 
+  CardHeader, Col, Row, Table, 
+  Input, Label, FormGroup, Button, 
+  Modal, ModalBody, ModalFooter, ModalHeader,
+  Form, FormText } from 'reactstrap';
+import ModalShop from './ModalShop';
 
 import axios from 'axios';
 
@@ -11,7 +16,7 @@ function ShopRow(props) {
   const getBadgeType = (type) => {
     return type === 'coffee' ? 'secondary' :
           type === 'sushi' ? 'warning' :
-          type === 'premium' ? 'primary' :
+          type === 'premium' ? 'info' :
             'danger'
   }
 
@@ -19,19 +24,28 @@ function ShopRow(props) {
     textTransform: 'capitalize'
   };
 
+  const styleButton = {
+    padding: '0px 5px',
+    background: 'primary'
+  }
+
   return (
-    <tr key={shop.id.toString()}>
-        <th scope="row">{shop.id}</th>
-        <td>{shop.name}</td>
-        <td>{shop.phone}</td>
-        <td>{shop.address}</td>
-        <td>{shop.district}</td>
-        <td>{shop.lat}</td>
-        <td>{shop.lng}</td>
-        <td style={styleCap} ><Badge href={'#'} color={getBadgeType(shop.type)}>{shop.type}</Badge></td>
-    </tr>
+      <tr key={shop.id.toString()}>
+          <th scope="row">{shop.id}</th>
+          <td>{shop.name}</td>
+          <td>{shop.phone}</td>
+          <td>{shop.address}</td>
+          <td>{shop.district}</td>
+          <td>{shop.lat}</td>
+          <td>{shop.lng}</td>
+          <td style={styleCap} ><Badge color={getBadgeType(shop.type)}>{shop.type}</Badge></td>
+          <td>
+              <Button onClick={(e) => props.editShowModal(shop)} style={styleButton} block color="primary">Edit</Button>
+          </td>
+      </tr>
   )
 }
+
 
 class Restaurants extends Component {
 
@@ -40,7 +54,9 @@ class Restaurants extends Component {
 
       this.state = {
           listShops: [],
-          listCompanies: []
+          listCompanies: [],
+          showModal: false,
+          objModal: null
       };
   }
 
@@ -138,6 +154,17 @@ class Restaurants extends Component {
     }
   }
 
+  showModalEditShop = (dataModal) => {
+    this.setState({
+      showModal: true,
+      objModal: dataModal
+    });
+  }
+
+  closeModalEditShop = () => {
+    this.setState({showModal: false});
+  }
+
   render() {
 
     const styleCap = {
@@ -148,6 +175,11 @@ class Restaurants extends Component {
       maxWidth: '60px', 
       paddingTop: '6px'
     };
+
+    let Modal = null;
+    if (this.state.objModal != null) {
+      Modal = <ModalShop show_Modal={this.state.showModal} close_ModalEditShop={this.closeModalEditShop} obj_Modal={this.state.objModal} list_Companies={this.state.listCompanies} />;
+    }
 
     return (
       <div className="animated fadeIn">
@@ -182,18 +214,22 @@ class Restaurants extends Component {
                       <th scope="col">lat</th>
                       <th scope="col">lng</th>
                       <th scope="col">type</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.listShops.map((shop, index) =>
-                      <ShopRow key={index} shop={shop}/>
-                    )}
+                    {
+                      this.state.listShops.map((shop, index) =>
+                      <ShopRow key={index} shop={shop} editShowModal={this.showModalEditShop} oneObj={this.state.objModal} />)
+                    }
                   </tbody>
                 </Table>
               </CardBody>
             </Card>
           </Col>
         </Row>
+        {Modal}
+        
       </div>
     )
   }
